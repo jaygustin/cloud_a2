@@ -50,7 +50,7 @@ public class RadioActivity extends Configured implements Tool {
 				denum ++;
 			}
 			avg = total/denum;
-			Text output = new Text("max: " + max + "; min: " + min + "; avg:" + avg);
+			Text output = new Text(max + "\t" + min + "\t" + avg);
 			context.write(key, output);
 		}
 	}
