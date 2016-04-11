@@ -37,26 +37,22 @@ public class RadioActivity extends Configured implements Tool {
 	}
 
 	public static void main(String[] args) throws Exception {
-		if (args.length < 3) {
-			System.out.println("You must specify the input file and output directory when running this program.");
-		}
-		System.out.println("Please enter a location, province and year to extract the activity information.");
-		System.out.println("Example: Calgary-AB-2009");
+		String[] arg = {"nms_airborne_radioactivity_ssn_radioactivite_dans_air.csv","output"};
 		Scanner s = new Scanner(System.in);
-		String key = s.nextLine();
+		System.out.println("Please enter a year");
+		String year = s.nextLine();
+		System.out.println("Please enter a location");
+		String location = s.nextLine();
+		String key = year + "-" + location;
 		
-		if (!key.matches("([A-Z])([a-z])*-([A-Z])*-([0-9]){4}")) {
-			System.out.println(key + ": Not a valid key, exiting program");
-		}
 		// run program
-		int res = ToolRunner.run(new Configuration(), new RadioActivity(), args);
+		int res = ToolRunner.run(new Configuration(), new RadioActivity(), arg);
 		// get output file and extract the line with specified key
-		String outputFile = args[1].endsWith("/") ? args[1] + "part-00000" : args[1] + "/part-00000";
-		try (BufferedReader br = new BufferedReader(new FileReader(outputFile))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("output/part-00000"))) {
 			boolean found = false;
 			for (String line; (line = br.readLine()) != null;) {
 				if (line.startsWith(key)) {
-					System.out.println("location-province-year max    min    avg");
+					System.out.println("year-location max    min    avg");
 					System.out.println(line);
 					found = true;
 					break;

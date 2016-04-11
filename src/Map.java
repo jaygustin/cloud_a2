@@ -10,7 +10,7 @@ import org.apache.hadoop.mapred.Reporter;
 
 public class Map implements Mapper<LongWritable, Text, Text, FloatWritable> {
 	// Log log = LogFactory.getLog(Map.class);
-	String locationProvinceYear;
+	String yearLocation;
 	private float cs134Activity;
 
 	@Override
@@ -33,9 +33,9 @@ public class Map implements Mapper<LongWritable, Text, Text, FloatWritable> {
 		}
 		String[] splitted = line.split(",", -1);
 		//build the key
-		locationProvinceYear = splitted[0] + "-" + splitted[1] + "-" + splitted[2].substring(0, 4);
+		yearLocation = splitted[2].substring(0, 4) + "-" + splitted[0];
 		//get the CDM column of Cs134. If it is empty, set value to 0
 		cs134Activity = (splitted[13].isEmpty()) ? 0 : Float.valueOf(splitted[13]);
-		output.collect(new Text(locationProvinceYear), new FloatWritable(cs134Activity));
+		output.collect(new Text(yearLocation), new FloatWritable(cs134Activity));
 	}
 }
