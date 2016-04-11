@@ -1,5 +1,3 @@
-package cloud_a2;
-
 import java.io.IOException;
 import java.util.Iterator;
 
